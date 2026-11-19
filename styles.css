@@ -47,6 +47,42 @@ button { cursor: pointer; }
 .generate-button:disabled { opacity: .55; cursor: wait; }
 .secondary-wide { margin: 12px 0; background: var(--raised); color: var(--text); border: 1px solid var(--control); }
 .two-fields { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.result-panel { position: relative; }
+.result-subtitle { margin: 4px 0 0; color: var(--muted); font-size: 13px; }
+.itinerary-preview { max-height: 540px; overflow: auto; border: 1px solid var(--border); border-radius: 12px; background: white; }
+.itinerary-cover { min-height: 190px; padding: 28px; background: #e8ede8; display: flex; flex-direction: column; justify-content: flex-end; }
+.itinerary-cover > span { font-size: 13px; color: var(--muted); }
+.itinerary-cover h3 { max-width: 12ch; margin: 8px 0 6px; font-family: Georgia, serif; font-size: 38px; line-height: 1; }
+.itinerary-cover p { margin: 0; color: var(--muted); font-size: 13px; }
+.itinerary-body { display: grid; grid-template-columns: repeat(3, 1fr); }
+.itinerary-body section { min-height: 180px; padding: 22px; background: #ffffff; }
+.itinerary-body { gap: 8px; background: var(--raised); }
+.itinerary-body h4 { margin: 0 0 8px; font-size: 15px; }
+.itinerary-body p { margin: 0; color: var(--muted); line-height: 1.5; font-size: 13px; }
+.floating-toolbar { position: sticky; bottom: 8px; z-index: 20; width: fit-content; max-width: 100%; margin: 12px auto 0; display: flex; gap: 6px; overflow-x: auto; border: 1px solid var(--border); border-radius: 10px; background: rgba(255,255,255,.96); padding: 7px; }
+.floating-toolbar button { height: 34px; flex: none; border: 1px solid var(--control); border-radius: 6px; background: white; padding: 0 10px; font-size: 12px; }
+.floating-toolbar button:first-child { background: var(--text); color: white; border-color: var(--text); }
+.template-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+.template-grid button { border: 1px solid var(--border); border-radius: 8px; background: white; padding: 8px; display: grid; gap: 8px; text-align: left; }
+.template-swatch { height: 130px; border-radius: 5px; background: #e8ede8; }
+.template-swatch.editorial { background: #d4cbb7; }
+.template-swatch.modern { background: #dce8ec; }
+.template-swatch.compact { background: #dfe4de; }
+.template-editorial .itinerary-cover { background: #1f2924; color: white; }
+.template-editorial .itinerary-cover > span, .template-editorial .itinerary-cover p { color: #d7ddd8; }
+.template-modern .itinerary-cover { background: #dce8ec; }
+.template-modern .itinerary-body { grid-template-columns: repeat(3, 1fr); }
+.template-compact .itinerary-cover { min-height: 130px; }
+.template-compact .itinerary-body section { min-height: 110px; padding: 14px; }
+body.continuous-print .itinerary-preview { max-height: none; overflow: visible; }
+body.continuous-print .itinerary-preview section { break-inside: avoid; }
+@media print {
+  body * { visibility: hidden !important; }
+  #itineraryPreview, #itineraryPreview * { visibility: visible !important; }
+  #itineraryPreview { position: absolute; left: 0; top: 0; width: 100%; max-height: none; overflow: visible; border: 0; }
+  .floating-toolbar { display: none !important; }
+  body.continuous-print .itinerary-preview section { break-inside: avoid-page; }
+}
 .sheet { width: min(520px, calc(100% - 24px)); border: 0; border-radius: 12px; padding: 0; }
 .sheet::backdrop { background: rgba(23,25,24,.32); }
 .sheet-bar { height: 52px; padding: 0 12px 0 16px; display: flex; align-items: center; justify-content: space-between; background: var(--raised); }
@@ -73,6 +109,12 @@ button { cursor: pointer; }
   .choice-card { min-height: 150px; }
   .choice-card strong { margin-top: 18px; }
   .two-fields { grid-template-columns: 1fr; }
+  .itinerary-preview { max-height: 520px; }
+  .itinerary-cover { min-height: 170px; padding: 22px; }
+  .itinerary-cover h3 { font-size: 32px; }
+  .itinerary-body { grid-template-columns: 1fr; }
+  .itinerary-body section { min-height: 120px; }
+  .floating-toolbar { width: calc(100% - 16px); justify-content: flex-start; }
   .quote-row { grid-template-columns: 64px 1fr; }
   .quote-row .remove-quote { grid-column: 2; justify-self: end; }
 }

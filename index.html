@@ -90,6 +90,48 @@
           <button class="generate-button" type="submit">Create proposal</button>
         </form>
       </section>
+
+      <section class="result-panel" id="resultPanel" hidden>
+        <div class="panel-title">
+          <div>
+            <h2 id="resultTitle">Itinerary preview</h2>
+            <p class="result-subtitle" id="resultSubtitle">Ready to review and send</p>
+          </div>
+          <button class="text-button" id="resultClose" type="button">Back to creation</button>
+        </div>
+
+        <article class="itinerary-preview" id="itineraryPreview">
+          <header class="itinerary-cover">
+            <span id="previewDestination">Destination</span>
+            <h3 id="previewTripTitle">Proposal name</h3>
+            <p id="previewMeta">Trip dates · 2 adults</p>
+          </header>
+          <div class="itinerary-body">
+            <section>
+              <h4>Day 1 · Arrival</h4>
+              <p>Airport arrival, private transfer and a relaxed evening at the hotel.</p>
+            </section>
+            <section>
+              <h4>Day 2 · Local discovery</h4>
+              <p>Breakfast, guided sightseeing and time for independent exploring.</p>
+            </section>
+            <section>
+              <h4>Day 3 · Signature experience</h4>
+              <p>A curated destination experience selected for this itinerary.</p>
+            </section>
+          </div>
+        </article>
+
+        <nav class="floating-toolbar" aria-label="Itinerary actions">
+          <button type="button" data-result-action="print">Download PDF</button>
+          <button type="button" data-result-action="print-continuous">PDF without page breaks</button>
+          <button type="button" data-result-action="whatsapp">Send via WhatsApp</button>
+          <button type="button" data-result-action="template">Template</button>
+          <button type="button" data-result-action="copy">Copy URL</button>
+          <button type="button" data-result-action="duplicate">Duplicate</button>
+          <button type="button" data-result-action="download-html">Download HTML</button>
+        </nav>
+      </section>
     </section>
   </main>
 
@@ -134,6 +176,16 @@
         </select>
       </div>
       <button class="generate-button" data-close="previewSheet" type="button">Done</button>
+    </div>
+  </dialog>
+
+  <dialog class="sheet template-sheet" id="templateSheet">
+    <div class="sheet-bar"><strong>Select template</strong><button class="icon-button" data-close="templateSheet" aria-label="Close">×</button></div>
+    <div class="sheet-body template-grid">
+      <button type="button" data-template="Classic"><span class="template-swatch classic"></span><strong>Classic</strong></button>
+      <button type="button" data-template="Editorial"><span class="template-swatch editorial"></span><strong>Editorial</strong></button>
+      <button type="button" data-template="Modern"><span class="template-swatch modern"></span><strong>Modern</strong></button>
+      <button type="button" data-template="Compact"><span class="template-swatch compact"></span><strong>Compact</strong></button>
     </div>
   </dialog>
 
