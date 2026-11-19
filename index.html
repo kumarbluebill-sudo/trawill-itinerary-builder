@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Create itinerary - TraWiz</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main class="proposal-page">
+    <header class="proposal-header">
+      <button class="icon-button" id="backButton" aria-label="Back">←</button>
+      <div>
+        <h1>Create a proposal</h1>
+        <p>Choose how to build the itinerary</p>
+      </div>
+      <span class="save-state" id="saveState">Draft</span>
+    </header>
+
+    <section class="create-modal" id="createModal">
+      <div class="choice-grid" id="choiceGrid">
+        <button class="choice-card" id="aiChoice" type="button">
+          <span class="choice-label">AI builder</span>
+          <strong>Generate itinerary with AI</strong>
+          <span>Use a prompt or upload a PDF, image or spreadsheet.</span>
+        </button>
+        <button class="choice-card" id="scratchChoice" type="button">
+          <span class="choice-label">Manual builder</span>
+          <strong>Create itinerary from scratch</strong>
+          <span>Build the destination, days and hotel plan yourself.</span>
+        </button>
+      </div>
+
+      <section class="ai-panel" id="aiPanel" hidden>
+        <div class="panel-title">
+          <div>
+            <h2>What should we create?</h2>
+          </div>
+          <button class="text-button" id="aiClose" type="button">Change method</button>
+        </div>
+
+        <label class="field">
+          <span>Prompt</span>
+          <textarea id="prompt" class="input textarea" rows="5" placeholder="Example: 6 nights in Switzerland for 2 adults, scenic train journey, mountain stays and easy sightseeing."></textarea>
+        </label>
+
+        <div class="or-row"><span>or upload a file</span></div>
+        <input id="fileInput" type="file" accept=".pdf,image/*,.xlsx,.xls,.csv" hidden>
+        <button class="upload-zone" id="uploadButton" type="button">
+          <strong id="uploadTitle">Choose a file</strong>
+          <span id="uploadHint">PDF, image, Excel or CSV</span>
+        </button>
+
+        <div class="option-grid">
+          <button class="option-row" id="leadOption" type="button">
+            <span><strong>Assign to lead</strong><small id="leadValue">Optional</small></span>
+            <b>›</b>
+          </button>
+          <button class="option-row" id="quoteOption" type="button">
+            <span><strong>Land package quote</strong><small id="quoteValue">Not included</small></span>
+            <b>›</b>
+          </button>
+          <button class="option-row" id="previewOption" type="button">
+            <span><strong>Preview setup</strong><small id="previewValue">Signature and branding pages</small></span>
+            <b>›</b>
+          </button>
+        </div>
+
+        <button class="generate-button" id="generateButton" type="button">Generate itinerary</button>
+      </section>
+
+      <section class="scratch-panel" id="scratchPanel" hidden>
+        <div class="panel-title">
+          <div>
+            <h2>Proposal details</h2>
+          </div>
+          <button class="text-button" id="scratchClose" type="button">Change method</button>
+        </div>
+        <form id="scratchForm" class="scratch-form">
+          <label class="field"><span>Destination / proposal name</span><input id="scratchDestination" class="input" required placeholder="Destination / Proposal Name"></label>
+          <label class="field"><span>Trip dates</span><input id="scratchDates" class="input" required placeholder="Dec 10-14, 2025"></label>
+          <div class="two-fields">
+            <label class="field"><span>No. of adults</span><input id="scratchAdults" class="input" type="number" min="1" required placeholder="2"></label>
+            <label class="field"><span>No. of children</span><input id="scratchChildren" class="input" type="number" min="0" value="0"></label>
+          </div>
+          <label class="field"><span>Children ages</span><input id="scratchAges" class="input" placeholder="8, 10"></label>
+          <button class="generate-button" type="submit">Create proposal</button>
+        </form>
+      </section>
+    </section>
+  </main>
+
+  <dialog class="sheet" id="leadSheet">
+    <div class="sheet-bar"><strong>Assign to lead</strong><button class="icon-button" data-close="leadSheet" aria-label="Close">×</button></div>
+    <div class="sheet-body">
+      <input id="leadSearch" class="input" placeholder="Search by WhatsApp number or client name">
+      <button class="lead-row" type="button" data-lead="Ananya Rao"><strong>Ananya Rao</strong><span>Kerala · +91 98765 43210</span></button>
+      <button class="lead-row" type="button" data-lead="Rahul Mehta"><strong>Rahul Mehta</strong><span>Bali · +91 99876 54123</span></button>
+      <button class="lead-row" type="button" data-lead="Priya Sharma"><strong>Priya Sharma</strong><span>Switzerland · +91 91234 56789</span></button>
+    </div>
+  </dialog>
+
+  <dialog class="sheet" id="quoteSheet">
+    <div class="sheet-bar"><strong>Land package quote</strong><button class="icon-button" data-close="quoteSheet" aria-label="Close">×</button></div>
+    <div class="sheet-body">
+      <p class="sheet-copy">Optional prices shown in the generated itinerary preview.</p>
+      <div id="quoteOptions"></div>
+      <button class="secondary-wide" id="addQuote" type="button">+ Add option</button>
+      <button class="generate-button" data-close="quoteSheet" type="button">Done</button>
+    </div>
+  </dialog>
+
+  <dialog class="sheet" id="previewSheet">
+    <div class="sheet-bar"><strong>Preview setup</strong><button class="icon-button" data-close="previewSheet" aria-label="Close">×</button></div>
+    <div class="sheet-body">
+      <div class="setup-section">
+        <h3>Static / branding pages</h3>
+        <p>Choose up to five opening and closing pages.</p>
+        <div class="chip-list" id="pageChips">
+          <button type="button" data-page="About the agency">About the agency</button>
+          <button type="button" data-page="Terms & conditions">Terms & conditions</button>
+          <button type="button" data-page="Payment policy">Payment policy</button>
+        </div>
+      </div>
+      <div class="setup-section">
+        <h3>Signature</h3>
+        <select id="signatureSelect" class="input">
+          <option value="">None</option>
+          <option>Arjun Mehta — Founder</option>
+          <option>Travel Desk — Team</option>
+        </select>
+      </div>
+      <button class="generate-button" data-close="previewSheet" type="button">Done</button>
+    </div>
+  </dialog>
+
+  <div class="toast" id="toast" role="status"></div>
+  <script src="app.js"></script>
+</body>
+</html>
